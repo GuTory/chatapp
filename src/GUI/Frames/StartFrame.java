@@ -50,7 +50,7 @@ public class StartFrame extends JFrame implements Runnable {
 
         loginPanel = new LoginPanel();
         signUpPanel = new SignUpPanel();
-        messageLabel = new JLabel("Hi, there!");
+        messageLabel = new JLabel("Hi, there! (" + users.size() + " users registered)");
 
         loginPanel.setLayout(new GridLayout(2,2));
 
@@ -64,13 +64,6 @@ public class StartFrame extends JFrame implements Runnable {
         add(signUpButton);
         add(signUpPanel);
         add(messageLabel);
-
-        for (User u : users){
-            JPanel panel = new JPanel();
-            JLabel label = new JLabel(u.getName() + " "  + u.getAge() + " "+ u.getUsername());
-            panel.add(label);
-            add(panel);
-        }
 
         loginButton.addActionListener(new LoginListener());
         signUpButton.addActionListener( new SignUpListener());
@@ -97,6 +90,12 @@ public class StartFrame extends JFrame implements Runnable {
                 } else {
                     messageLabel.setText("Invalid username or password!");
                 }
+                /*
+
+                HARD DELETE
+
+                u.getFriends().clear();
+                */
             }
         }
 
@@ -126,6 +125,17 @@ public class StartFrame extends JFrame implements Runnable {
                     }
                 }
                 User newUser = new User(username, password, name, age);
+
+                /*
+                    FOR TESTING PURPOSES ONLY
+                */
+                for(User u: users){
+                    if(u.getUsername().equals("admin")){
+                        newUser.addFriend(u);
+                        System.out.println("friend added?");
+                    }
+                }
+
                 users.add(newUser);
                 messageLabel.setText("Welcome, " + name + "!");
                 openChatFrame(newUser);
@@ -170,6 +180,10 @@ public class StartFrame extends JFrame implements Runnable {
 
     public static LinkedList<User> getUsers() {
         return users;
+    }
+
+    public static LinkedList<ChatFrame> getChatFrames() {
+        return chatFrames;
     }
 
     @Override

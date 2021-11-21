@@ -9,7 +9,7 @@ public class User implements Serializable {
     private String password;
     private String name;
     private int age;
-    private HashMap<User, LinkedList<Message>> friends;
+    public HashMap<User, LinkedList<Message>> friends;
 
     public User(String un, String pw, String n, int a){
         username = un;
@@ -25,6 +25,11 @@ public class User implements Serializable {
             friends.put(u, messages);
             u.friends.put(this, messages);
         }
+    }
+
+    public void removeFriend(User u){
+        friends.remove(u);
+        u.friends.remove(u);
     }
 
     public String getName() {
