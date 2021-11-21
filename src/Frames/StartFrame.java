@@ -4,9 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URL;
+import Listeners.LoginListener;
+import Listeners.SignUpListener;
 
-public class MainFrame extends JFrame {
+public class StartFrame extends JFrame implements Runnable {
     JButton loginButton;
     JButton signUpButton;
     JLabel userNameLabel;
@@ -14,16 +15,17 @@ public class MainFrame extends JFrame {
     JTextField userNameField;
     JTextField passwordField;
 
-    public MainFrame(){
+    public StartFrame(){
         super("Chat App");
         try {
-            ImageIcon icon = new ImageIcon("red.png");
+            ImageIcon icon = new ImageIcon("chat.png");
             super.setIconImage(icon.getImage());
         } catch (Exception e){
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(250, 100));
+        setResizable(false);
         loginButton = new JButton("Login");
         signUpButton = new JButton("Sign up");
         userNameLabel = new JLabel("Username");
@@ -44,26 +46,9 @@ public class MainFrame extends JFrame {
         signUpButton.addActionListener(signUpListener);
     }
 
-    private class LoginListener implements ActionListener{
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            System.out.println("login");
-        }
-    }
-
-    private class SignUpListener implements ActionListener{
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            System.out.println("signup");
-        }
-    }
-
-
-
-    public static void main(String[] args) {
-        JFrame myframe = new MainFrame();
+    @Override
+    public void run() {
+        JFrame myframe = new StartFrame();
         myframe.setVisible(true);
     }
 }
