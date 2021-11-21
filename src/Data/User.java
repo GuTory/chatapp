@@ -1,9 +1,10 @@
 package Data;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class User {
+public class User implements Serializable {
     private String username;
     private String password;
     private String name;
@@ -40,5 +41,9 @@ public class User {
 
     public int getAge() {
         return age;
+    }
+
+    public HashMap<User, LinkedList<Message>> getFriends() {
+        return friends;
     }
 }

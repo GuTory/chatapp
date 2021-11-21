@@ -2,11 +2,15 @@ package GUI.Frames;
 
 import Data.User;
 import GUI.Panels.LoginPanel;
+import GUI.Panels.SignUpPanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.*;
 import java.util.LinkedList;
 
 public class StartFrame extends JFrame implements Runnable {
@@ -14,30 +18,24 @@ public class StartFrame extends JFrame implements Runnable {
     private static LinkedList<User> users;
 
     private  Dimension dim;
+
     private  JButton loginButton;
     private  JButton signUpButton;
 
-    private  JLabel userNameLabel;
-    private  JLabel passwordLabel;
-    private  JTextField userNameField;
-    private  JTextField passwordField;
-
-    private JLabel nameLabel;
-    private JTextField nameField;
-    private JLabel ageLabel;
-    private JTextField ageField;
-
+    private LoginPanel loginPanel;
+    private SignUpPanel signUpPanel;
     private  JLabel messageLabel;
-
-    //private LoginPanel loginPanel;
-    private JPanel loginPanel;
-    private JPanel additionalPanel;
 
     public StartFrame(){
         super("Chat App");
         try {
             ImageIcon icon = new ImageIcon("chat.png");
             super.setIconImage(icon.getImage());
+
+            chatFrames = new LinkedList<>();
+            users = new LinkedList<>();
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("users.dat"));
+            users = (LinkedList<User>) ois.readObject();
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -46,62 +44,52 @@ public class StartFrame extends JFrame implements Runnable {
         setMinimumSize(dim);
         //setResizable(false);
 
-        userNameLabel = new JLabel("Username:");
-        passwordLabel = new JLabel("Password:");
-        userNameField = new JTextField(20);
-        passwordField = new JTextField(20);
-
 
         signUpButton = new JButton("Sign up");
         loginButton = new JButton("Login");
-        nameLabel = new JLabel("Full name:");
-        ageLabel = new JLabel("Your age:");
-        nameField = new JTextField(20);
-        ageField = new JTextField(20);
-        //loginPanel = new LoginPanel();
-        loginPanel = new JPanel();
-        additionalPanel = new JPanel();
+
+        loginPanel = new LoginPanel();
+        signUpPanel = new SignUpPanel();
         messageLabel = new JLabel("Hi, there!");
 
         loginPanel.setLayout(new GridLayout(2,2));
-        loginPanel.add(userNameLabel);
-        loginPanel.add(userNameField);
-        loginPanel.add(passwordLabel);
-        loginPanel.add(passwordField);
 
-        additionalPanel.setLayout(new GridLayout(2,2));
-        additionalPanel.add(nameLabel);
-        additionalPanel.add(nameField);
-        additionalPanel.add(ageLabel);
-        additionalPanel.add(ageField);
+        signUpPanel.setLayout(new GridLayout(2,2));
+
 
         setLayout(new FlowLayout());
 
         add(loginPanel);
         add(loginButton);
         add(signUpButton);
-        add(additionalPanel);
+        add(signUpPanel);
         add(messageLabel);
 
-        LoginListener loginListener = new LoginListener();
-        SignUpListener signUpListener = new SignUpListener();
-        loginButton.addActionListener(loginListener);
-        signUpButton.addActionListener(signUpListener);
+        for (User u : users){
+            JPanel panel = new JPanel();
+            JLabel label = new JLabel(u.getName() + " "  + u.getAge() + " "+ u.getUsername());
+            panel.add(label);
+            add(panel);
+        }
+
+        loginButton.addActionListener(new LoginListener());
+        signUpButton.addActionListener( new SignUpListener());
+        this.addWindowListener(new CloseWindowAdapter());
     }
 
     private class LoginListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            //String username = loginPanel.getUserNameField().getText();
-            //String password = loginPanel.getPasswordField().getText();
-            String username = userNameField.getText();
-            String password = passwordField.getText();
+            String username = loginPanel.getUserNameField().getText();
+            String password = loginPanel.getPasswordField().getText();
             for(User u: users){
                 if(u.getUsername().equals(username) && u.getPassword().equals(password)){
                     if(!LoggedIn(username)){
                         messageLabel.setText("Welcome, " + u.getName() + "!");
                         openChatFrame(u);
+                        loginPanel.setDefault();
+                        signUpPanel.setDefault();
                     } else {
                         messageLabel.setText("You are already logged in!");
                     }
@@ -127,11 +115,10 @@ public class StartFrame extends JFrame implements Runnable {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-
-                String username = userNameField.getText();
-                String password = passwordField.getText();
-                String name = nameField.getText();
-                int age = Integer.parseInt(ageField.getText());
+                String username = loginPanel.getUserNameField().getText();
+                String password = loginPanel.getPasswordField().getText();
+                String name = signUpPanel.getNameField().getText();
+                int age = Integer.parseInt(signUpPanel.getAgeField().getText());
                 for(User u: users){
                     if(u.getUsername().equals(username)){
                         messageLabel.setText("This username is already taken!");
@@ -142,6 +129,8 @@ public class StartFrame extends JFrame implements Runnable {
                 users.add(newUser);
                 messageLabel.setText("Welcome, " + name + "!");
                 openChatFrame(newUser);
+                loginPanel.setDefault();
+                signUpPanel.setDefault();
             } catch (Exception ee){
                 messageLabel.setText("Please fill all textfields and enter valid information!");
             }
@@ -149,26 +138,43 @@ public class StartFrame extends JFrame implements Runnable {
         }
     }
 
-    void initfordebug(){
-        User admin = new User("admin","admin", "Kritya", 20);
-        User user1 = new User("user1", "1234", "Zalán", 22);
-        users.add(admin);
-        users.add(user1);
+    private class CloseWindowAdapter extends WindowAdapter {
+        @Override
+        public void windowClosing(WindowEvent e) {
+            try {
+                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("users.dat"));
+                oos.writeObject(users);
+                oos.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    private class ChatWindowAdapter extends WindowAdapter {
+        @Override
+        public void windowClosing(WindowEvent e) {
+            chatFrames.remove((ChatFrame) e.getSource());
+        }
     }
 
     void openChatFrame(User u){
         ChatFrame chatFrame = new ChatFrame(u);
+        chatFrame.setStartFrame(this);
+        ChatWindowAdapter cwa = new ChatWindowAdapter();
+        chatFrame.addWindowListener(cwa);
         chatFrames.add(chatFrame);
         Thread newthread = new Thread(chatFrame);
         newthread.start();
+    }
+
+    public static LinkedList<User> getUsers() {
+        return users;
     }
 
     @Override
     public void run() {
         JFrame myframe = new StartFrame();
         myframe.setVisible(true);
-        chatFrames = new LinkedList<>();
-        users = new LinkedList<>();
-        initfordebug();
     }
 }

@@ -16,6 +16,15 @@ public class LoginPanel extends JPanel {
         passwordLabel = new JLabel("Password:");
         userNameField = new JTextField(20);
         passwordField = new JTextField(20);
+        add(userNameLabel);
+        add(userNameField);
+        add(passwordLabel);
+        add(passwordField);
+    }
+
+    public void setDefault(){
+        userNameField.setText("");
+        passwordField.setText("");
     }
 
     public JTextField getUserNameField() {
