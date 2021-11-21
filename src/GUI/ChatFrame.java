@@ -1,4 +1,4 @@
-package Frames;
+package GUI;
 
 import javax.swing.*;
 import Data.*;
@@ -21,10 +21,12 @@ public class ChatFrame  extends JFrame implements Runnable {
         }
         setLayout(new BorderLayout());
         nameLabel = new JLabel(user.getName());
-
-
         add(nameLabel, BorderLayout.NORTH);
         setMinimumSize(new Dimension(800, 540));
+    }
+
+    public User getUser() {
+        return user;
     }
 
     @Override
