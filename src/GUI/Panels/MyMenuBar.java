@@ -17,14 +17,18 @@ public class MyMenuBar extends JMenuBar {
         JMenuItem self = new JMenuItem("You are logged in as " + frame.getUser().getName());
         JMenuItem addFriends = new JMenuItem("Add Friends");
         JMenuItem deleteAccount = new JMenuItem("Delete Account");
+        JMenuItem exit = new JMenuItem("Exit");
 
         self.addActionListener(new SelfListener());
         addFriends.addActionListener(new AddFriendListener());
         deleteAccount.addActionListener(new DeleteAccountListener());
+        exit.addActionListener(new ExitListener());
         add(self);
         add(addFriends);
         add(deleteAccount);
+        add(exit);
     }
+
     private class SelfListener implements ActionListener{
 
         @Override
@@ -49,6 +53,15 @@ public class MyMenuBar extends JMenuBar {
             for (User u: frame.getUser().getFriends().keySet()){
                 u.removeFriend(frame.getUser());
             }
+            StartFrame.getChatFrames().remove(frame);
+            frame.dispose();
+        }
+    }
+
+    private class ExitListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
             StartFrame.getChatFrames().remove(frame);
             frame.dispose();
         }

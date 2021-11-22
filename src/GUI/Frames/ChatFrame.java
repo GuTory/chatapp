@@ -65,7 +65,6 @@ public class ChatFrame extends JFrame implements Runnable {
         add(friendPanel, BorderLayout.WEST);
         friendPanel.setVisible(true);
 
-
         add(southPanel, BorderLayout.SOUTH);
         setMinimumSize(new Dimension(800, 540));
         setVisible(true);
