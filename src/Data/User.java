@@ -19,7 +19,7 @@ public class User implements Serializable {
         friends = new HashMap<>();
     }
 
-    public void addFriend(User u){
+    synchronized public void addFriend(User u){
         if(!friends.containsKey(u)){
             LinkedList<Message> messages = new LinkedList<>();
             friends.put(u, messages);
@@ -27,7 +27,7 @@ public class User implements Serializable {
         }
     }
 
-    public void removeFriend(User u){
+    synchronized public void removeFriend(User u){
         friends.remove(u);
         u.friends.remove(u);
     }

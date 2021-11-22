@@ -27,7 +27,7 @@ public class StartFrame extends JFrame implements Runnable {
     private  JLabel messageLabel;
 
     public StartFrame(){
-        super("Chat App");
+        super("Texting purposes only...");
         try {
             ImageIcon icon = new ImageIcon("chat.png");
             super.setIconImage(icon.getImage());
@@ -42,7 +42,7 @@ public class StartFrame extends JFrame implements Runnable {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         dim = new Dimension(480, 200);
         setMinimumSize(dim);
-        //setResizable(false);
+        setResizable(false);
 
 
         signUpButton = new JButton("Sign up");
@@ -53,10 +53,7 @@ public class StartFrame extends JFrame implements Runnable {
         messageLabel = new JLabel("Hi, there! (" + users.size() + " users registered)");
 
         loginPanel.setLayout(new GridLayout(2,2));
-
         signUpPanel.setLayout(new GridLayout(2,2));
-
-
         setLayout(new FlowLayout());
 
         add(loginPanel);

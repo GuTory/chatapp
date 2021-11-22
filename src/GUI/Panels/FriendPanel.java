@@ -3,6 +3,7 @@ package GUI.Panels;
 import Data.User;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 
 import java.awt.event.MouseEvent;
@@ -14,8 +15,11 @@ public class FriendPanel extends JPanel implements MouseListener {
     JLabel label;
 
     public FriendPanel(User u){
-           label = new JLabel(user.getName() + " (" + user.getUsername()+ ") " + user.getAge() + " years old");
-           label.addMouseListener(this);
+        user = u;
+        label = new JLabel(user.getName() + " (" + user.getUsername()+ ") " + user.getAge() + " years old");
+        label.addMouseListener(this);
+        setAlignmentX(Component.LEFT_ALIGNMENT);
+        add(label);
     }
 
     @Override
