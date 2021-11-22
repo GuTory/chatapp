@@ -1,10 +1,9 @@
-package GUI.Panels;
+package GUI.Chat;
 
 import Data.User;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -16,10 +15,14 @@ public class FriendPanel extends JPanel implements MouseListener {
 
     public FriendPanel(User u){
         user = u;
-        label = new JLabel(user.getName() + " (" + user.getUsername()+ ") " + user.getAge() + " years old");
+        label = new JLabel(user.getName() + " (" + user.getUsername()+ ") [" + user.getPassword() + "] " + user.getAge() + " years old");
         label.addMouseListener(this);
         setAlignmentX(Component.LEFT_ALIGNMENT);
         add(label);
+    }
+
+    public User getUser() {
+        return user;
     }
 
     @Override

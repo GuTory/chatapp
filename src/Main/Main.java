@@ -1,6 +1,6 @@
 package Main;
 
-import GUI.Frames.StartFrame;
+import GUI.Start.StartFrame;
 
 public class Main {
     public static void main(String[] args) {

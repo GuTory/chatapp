@@ -1,8 +1,7 @@
-package GUI.Panels;
+package GUI.Chat;
 
 import Data.User;
-import GUI.Frames.ChatFrame;
-import GUI.Frames.StartFrame;
+import GUI.Start.StartFrame;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
