@@ -24,7 +24,7 @@ public class StartFrame extends JFrame implements Runnable {
     private  JLabel messageLabel;
 
     public StartFrame(){
-        super("Texting purposes only...");
+        super("For texting purposes only...");
         try {
             ImageIcon icon = new ImageIcon("chat.png");
             super.setIconImage(icon.getImage());

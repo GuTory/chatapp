@@ -11,41 +11,22 @@ public class ChatFrame extends JFrame implements Runnable {
     private User user;
 
     private MyMenuBar menuBar;
-    private JPanel southPanel;
-    private FriendListPanel friendPanel;
-    private JTextField messageField;
-    private JButton sendButton;
+    private ChatPanel chatPanel;
 
     public ChatFrame(User u){
         super(u.getName() + "'s chats");
         user = u;
-        setLayout(new BorderLayout());
+        setMinimumSize(new Dimension(800, 540));
         try {
             ImageIcon icon = new ImageIcon("chat.png");
             super.setIconImage(icon.getImage());
         } catch (Exception e){
             e.printStackTrace();
         }
-
-        southPanel = new JPanel();
-        messageField = new JTextField(40);
-        sendButton = new JButton("Send");
-        southPanel.add(messageField,BorderLayout.SOUTH);
-        southPanel.add(sendButton, BorderLayout.SOUTH);
-
         menuBar = new MyMenuBar(this);
         setJMenuBar(menuBar);
-
-        friendPanel = new FriendListPanel(user);
-
-        /*
-            Texting purposes only
-         */
-        add(new JLabel("Im not lost"), BorderLayout.CENTER);
-
-        add(friendPanel, BorderLayout.WEST);
-        add(southPanel, BorderLayout.SOUTH);
-        setMinimumSize(new Dimension(800, 540));
+        chatPanel = new ChatPanel(this, user);
+        add(chatPanel);
         setVisible(true);
     }
 
@@ -62,7 +43,7 @@ public class ChatFrame extends JFrame implements Runnable {
         this.startFrame = startFrame;
     }
 
-    public FriendListPanel getFriendPanel() {
-        return friendPanel;
+    public ChatPanel getChatPanel() {
+        return chatPanel;
     }
 }

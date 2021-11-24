@@ -25,34 +25,15 @@ public class User implements Serializable {
     synchronized public void addFriend(User u){
         if(!friends.containsKey(u)){
             LinkedList<Message> messages = new LinkedList<>();
+            friends.put(u, messages);
+            u.friends.put(this, messages);
             for(ChatFrame f: StartFrame.getChatFrames()){
                 if (f.getUser().getUsername().equals(u.getUsername()) ||
                         f.getUser().getUsername().equals(username)){
-                    f.getFriendPanel().addUserToList(this);
-                    f.getFriendPanel().revalidate();
-                    f.getFriendPanel().repaint();
+                    f.getChatPanel().refreshFriendList();
                 }
             }
-            friends.put(u, messages);
-            u.friends.put(this, messages);
-        }
-    }
 
-    synchronized public void removeFriend(User u){
-        friends.remove(u);
-        u.friends.remove(u);
-        for(ChatFrame f: StartFrame.getChatFrames()){
-            if (f.getUser().getUsername().equals(u.getUsername())){
-                f.getFriendPanel().removeUserFromList(this);
-                //törölni kell a megfelelőt
-                f.getFriendPanel().revalidate();
-                f.getFriendPanel().repaint();
-            } else if(f.getUser().getUsername().equals(username)){
-                f.getFriendPanel().removeUserFromList(u);
-                //törölni kell a megfelelőt
-                f.getFriendPanel().revalidate();
-                f.getFriendPanel().repaint();
-            }
         }
     }
 
@@ -72,7 +53,16 @@ public class User implements Serializable {
         return age;
     }
 
+    public String toString(){
+        return username + ": " + name;
+    }
+
     public HashMap<User, LinkedList<Message>> getFriends() {
         return friends;
+    }
+
+    public void removeFriend(User user) {
+        friends.remove(user);
+        user.friends.remove(this);
     }
 }
