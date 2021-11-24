@@ -20,9 +20,7 @@ public class MessagesPanel extends JPanel {
         listModel = new DefaultListModel<>();
         messageJList.setModel(listModel);
         add(messageJList);
-        if(friend != null){
-            loadMessages();
-        }
+        loadMessages();
     }
 
     public void refresh(User newUser){
@@ -33,8 +31,10 @@ public class MessagesPanel extends JPanel {
 
     public void loadMessages(){
         LinkedList<Message> messages = frame.getUser().friends.get(friend);
-        listModel.addAll(messages);
-        revalidate();
-        repaint();
+        if(messages != null){
+            listModel.addAll(messages);
+            revalidate();
+            repaint();
+        }
     }
 }

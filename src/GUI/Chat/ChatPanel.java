@@ -45,14 +45,7 @@ public class ChatPanel extends JPanel implements ListSelectionListener {
         /*
             Texting purposes only
          */
-        //list.setSelectedIndex(0);
-        User select = null;
-        try {
-            select = model.get(list.getSelectedIndex());
-
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        User select = list.getSelectedValue();
         messagesPanel = new MessagesPanel(frame , select);
 
         centerPane = new JScrollPane(messagesPanel);
@@ -82,24 +75,26 @@ public class ChatPanel extends JPanel implements ListSelectionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            String[] name = list.getSelectedValue().toString().split(": ");
-            User reciever = user;
-            for(User userr: user.friends.keySet()){
-                if(userr.getUsername().equals(name[0])){
-                    reciever = userr;
-                }
-            }
+            if(!list.isSelectionEmpty()){
+                User reciever = list.getSelectedValue();
 
-            if(!messageField.getText().equals("")){
-                // ha van fájl módosítani kell
-                Message newMessage = new Message(user, reciever, messageField.getText(), false);
-                user.friends.get(reciever).push(newMessage);
-                messagesPanel.refresh(reciever);
-                for(ChatFrame frames : StartFrame.getChatFrames()){
-                    if (frames.getUser().equals(reciever)){
-                        frames.getChatPanel().messagesPanel.refresh(user);
+                if(!messageField.getText().equals("")){
+                    // ha van fájl módosítani kell
+                    Message newMessage = new Message(user, reciever, messageField.getText(), false);
+                    user.friends.get(reciever).push(newMessage);
+                    messagesPanel.refresh(reciever);
+                    for(ChatFrame frames : StartFrame.getChatFrames()){
+                        if (frames.getUser().equals(reciever)){
+                            frames.getChatPanel().messagesPanel.refresh(user);
+                        }
                     }
+                    messageField.setText("");
                 }
+            } else {
+                JOptionPane op = new JOptionPane("Please select one of your Friends!");
+                op.setLayout(new BoxLayout(op,BoxLayout.Y_AXIS));
+                JDialog dg = op.createDialog ( frame, "Warning");
+                dg.setVisible(true);
             }
         }
     }
