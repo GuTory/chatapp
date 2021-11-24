@@ -62,7 +62,16 @@ public class MyMenuBar extends JMenuBar {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("add friends");
+            String friendUserName = JOptionPane.showInputDialog("Type Your friend's username!");
+            User friendrequested = null;
+            for(User u : StartFrame.getUsers()){
+                if(u.getUsername().equals(friendUserName)){
+                    friendrequested = u;
+                }
+            }
+            if(friendrequested != null){
+                friendrequested.addFriendRequest(frame.getUser());
+            }
             for (ChatFrame f: StartFrame.getChatFrames()){
                 f.getChatPanel().refreshFriendList();
             }
@@ -73,7 +82,22 @@ public class MyMenuBar extends JMenuBar {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("remove friend");
+            String friendUserName = JOptionPane.showInputDialog("Which friend do you want to remove?");
+            User friendRemove = null;
+            for(User u : StartFrame.getUsers()){
+                if(u.getUsername().equals(friendUserName)){
+                    friendRemove = u;
+                }
+            }
+            if(friendRemove != null){
+                friendRemove.removeFriend(frame.getUser());
+                for(ChatFrame frameIterator: StartFrame.getChatFrames()){
+                    if (frameIterator.equals(frame) || frameIterator.getUser().getUsername().equals(friendUserName)){
+                        frameIterator.getChatPanel().refreshFriendList();
+                    }
+                }
+            }
+
         }
     }
 

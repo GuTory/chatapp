@@ -5,6 +5,7 @@ import GUI.Start.StartFrame;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 public class User implements Serializable {
@@ -12,7 +13,8 @@ public class User implements Serializable {
     private String password;
     private String name;
     private int age;
-    public HashMap<User, LinkedList<Message>> friends;
+    private HashMap<User, LinkedList<Message>> friends;
+    private HashSet<User> friendRequests;
 
     public User(String un, String pw, String n, int a){
         username = un;
@@ -20,6 +22,7 @@ public class User implements Serializable {
         name = n;
         age = a;
         friends = new HashMap<>();
+        friendRequests = new HashSet<>();
     }
 
     synchronized public void addFriend(User u){
@@ -33,8 +36,11 @@ public class User implements Serializable {
                     f.getChatPanel().refreshFriendList();
                 }
             }
-
         }
+    }
+
+    public void addFriendRequest(User u){
+        friendRequests.add(u);
     }
 
     public String getName() {
