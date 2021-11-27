@@ -19,7 +19,7 @@ public class FriendList extends JPanel implements ListSelectionListener {
         model = new DefaultListModel<>();
         list.setModel(model);
         list.addListSelectionListener(this);
-        model.addAll(panel.user.getFriends().keySet());
+        model.addAll(panel.getFrame().getUser().getFriends().keySet());
         add(list);
     }
 

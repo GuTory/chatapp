@@ -25,7 +25,7 @@ public class ChatFrame extends JFrame implements Runnable {
         }
         menuBar = new MyMenuBar(this);
         setJMenuBar(menuBar);
-        chatPanel = new ChatPanel(this, user);
+        chatPanel = new ChatPanel(this);
         add(chatPanel);
         setVisible(true);
 

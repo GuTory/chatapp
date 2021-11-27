@@ -5,9 +5,19 @@ import Data.User;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * <h3>Csevegéseket megjelenítő panel</h3>
+ * A {@link ChatFrame} nagyobbik részét alkotó panel, a menubaron kívül mindent
+ */
 public class ChatPanel extends JPanel {
+    /**
+     * Az ablak, amihez tartozik
+     */
     ChatFrame frame;
-    User user;
+
+    /**
+     * A felhazs
+     */
 
 
     private JScrollPane westPane;
@@ -16,9 +26,8 @@ public class ChatPanel extends JPanel {
     private MessagesPanel messagesPanel;
     private MessagingPanel messagingPanel;
 
-    public ChatPanel(ChatFrame f, User u){
+    public ChatPanel(ChatFrame f){
         frame = f;
-        user = u;
         setLayout(new BorderLayout());
 
         messagingPanel = new MessagingPanel(this);
@@ -39,10 +48,14 @@ public class ChatPanel extends JPanel {
 
     public void refreshFriendList(){
         friendList.getModel().removeAllElements();
-        friendList.getModel().addAll(user.getFriends().keySet());
+        friendList.getModel().addAll(frame.getUser().getFriends().keySet());
         frame.pack();
         westPane.revalidate();
         westPane.repaint();
+    }
+
+    public ChatFrame getFrame() {
+        return frame;
     }
 
     public MessagesPanel getMessagesPanel() {

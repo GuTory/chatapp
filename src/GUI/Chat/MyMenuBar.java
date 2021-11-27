@@ -7,16 +7,45 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
+/**
+ * <h3>Csevegőfelülethez ({@link ChatFrame}) tartozó Menubar</h3>
+ */
 public class MyMenuBar extends JMenuBar {
-    ChatFrame frame;
+    /**
+     * Csevegőablak, amihez tartozik a Menubar.
+     */
+    private ChatFrame frame;
 
-    JMenuItem self;
-    JMenuItem addFriends;
-    JMenuItem removeFriends;
-    JMenuItem deleteAccount;
-    JMenuItem exit;
+    /**
+     * Személyen információkat megjelenítő Menüelem.
+     */
+    private JMenuItem self;
 
+    /**
+     * Új barátokat lehet ennek a gombnak a megnyomásával szerezni.
+     */
+    private JMenuItem addFriends;
+
+    /**
+     * A gomb megnyomásával lehet barátokat eltávolítani.
+     */
+    private JMenuItem removeFriends;
+
+    /**
+     * A gomb megnyomásával lehet a felhasználót törölni.
+     */
+    private JMenuItem deleteAccount;
+
+    /**
+     * A gomb megnyomásával ki lehet jelentkezni a csevegőablakból.
+     */
+    private JMenuItem exit;
+
+    /**
+     * <h3>Konstruktor</h3>
+     * Inicializálja a menüelemeket, hozzájukadja a Listenereket és összerakhja a komponensekből magát
+     * @param f az ablak, amihez tartozik a Menubar
+     */
     public MyMenuBar(ChatFrame f){
         frame = f;
         self = new JMenuItem( frame.getUser().getName());
@@ -37,6 +66,9 @@ public class MyMenuBar extends JMenuBar {
         add(exit);
     }
 
+    /**
+     * Személyes információkat megjelenítő Listener
+     */
     private class SelfListener implements ActionListener{
 
         @Override
@@ -58,6 +90,9 @@ public class MyMenuBar extends JMenuBar {
         }
     }
 
+    /**
+     * Új barát hozzáadásához használt Listener
+     */
     private class AddFriendListener implements ActionListener{
 
         @Override
@@ -81,6 +116,9 @@ public class MyMenuBar extends JMenuBar {
         }
     }
 
+    /**
+     * Barát eltávolításához használt Listener
+     */
     private class RemoveFriendListener implements ActionListener{
 
         @Override
@@ -107,6 +145,9 @@ public class MyMenuBar extends JMenuBar {
         }
     }
 
+    /**
+     * Fiók törléséhez használt Listener
+     */
     private class DeleteAccountListener implements ActionListener {
 
         @Override
@@ -123,6 +164,9 @@ public class MyMenuBar extends JMenuBar {
         }
     }
 
+    /**
+     * Kijelentkezéshez használt Listener
+     */
     private class ExitListener implements ActionListener{
 
         @Override

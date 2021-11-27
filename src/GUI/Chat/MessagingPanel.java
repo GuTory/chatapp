@@ -34,9 +34,9 @@ public class MessagingPanel extends JPanel {
     private class SendMessageListener implements ActionListener {
 
         @Override
-        public void actionPerformed(ActionEvent e) {
+        synchronized public void actionPerformed(ActionEvent e) {
             FriendList friendList = panel.getFriendList();
-            User user = panel.user;
+            User user = panel.getFrame().getUser();
             MessagesPanel messagesPanel = panel.getMessagesPanel();
 
             if(!friendList.getList().isSelectionEmpty()){
