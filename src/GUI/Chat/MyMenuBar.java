@@ -69,12 +69,15 @@ public class MyMenuBar extends JMenuBar {
                     friendrequested = u;
                 }
             }
-            if(friendrequested != null){
-                friendrequested.addFriendRequest(frame.getUser());
+            if(!frame.getUser().getFriends().containsKey(friendrequested)){
+                if(friendrequested != null){
+                    friendrequested.addFriendRequest(frame.getUser());
+                }
+                for (ChatFrame f: StartFrame.getChatFrames()){
+                    f.getChatPanel().refreshFriendList();
+                }
             }
-            for (ChatFrame f: StartFrame.getChatFrames()){
-                f.getChatPanel().refreshFriendList();
-            }
+
         }
     }
 
@@ -90,14 +93,17 @@ public class MyMenuBar extends JMenuBar {
                 }
             }
             if(friendRemove != null){
+                ChatFrame frame1 = StartFrame.loggedInFrame(frame.getUser());
+                ChatFrame frame2 = StartFrame.loggedInFrame(friendRemove);
                 friendRemove.removeFriend(frame.getUser());
-                for(ChatFrame frameIterator: StartFrame.getChatFrames()){
-                    if (frameIterator.equals(frame) || frameIterator.getUser().getUsername().equals(friendUserName)){
-                        frameIterator.getChatPanel().refreshFriendList();
-                    }
+                if(frame1 != null){
+                    frame1.getChatPanel().refreshFriendList();
                 }
-            }
+                if(frame2 != null){
+                    frame2.getChatPanel().refreshFriendList();
+                }
 
+            }
         }
     }
 

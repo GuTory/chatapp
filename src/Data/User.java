@@ -5,7 +5,6 @@ import GUI.Start.StartFrame;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 
 public class User implements Serializable {
@@ -14,7 +13,7 @@ public class User implements Serializable {
     private String name;
     private int age;
     private HashMap<User, LinkedList<Message>> friends;
-    private HashSet<User> friendRequests;
+    private ObservedHashSet friendRequests;
 
     public User(String un, String pw, String n, int a){
         username = un;
@@ -22,25 +21,27 @@ public class User implements Serializable {
         name = n;
         age = a;
         friends = new HashMap<>();
-        friendRequests = new HashSet<>();
+        friendRequests = new ObservedHashSet(this);
     }
 
-    synchronized public void addFriend(User u){
+     public void addFriend(User u){
         if(!friends.containsKey(u)){
             LinkedList<Message> messages = new LinkedList<>();
             friends.put(u, messages);
             u.friends.put(this, messages);
-            for(ChatFrame f: StartFrame.getChatFrames()){
-                if (f.getUser().getUsername().equals(u.getUsername()) ||
-                        f.getUser().getUsername().equals(username)){
-                    f.getChatPanel().refreshFriendList();
-                }
+            ChatFrame frame1 = StartFrame.loggedInFrame(this);
+            ChatFrame frame2 = StartFrame.loggedInFrame(u);
+            if(frame1 != null){
+                frame1.getChatPanel().refreshFriendList();
+            }
+            if(frame2 != null){
+                frame2.getChatPanel().refreshFriendList();
             }
         }
     }
 
     public void addFriendRequest(User u){
-        friendRequests.add(u);
+        friendRequests.push(u);
     }
 
     public String getName() {
@@ -65,6 +66,14 @@ public class User implements Serializable {
 
     public HashMap<User, LinkedList<Message>> getFriends() {
         return friends;
+    }
+
+    public boolean equals(User u){
+        return username.equals(u.getUsername());
+    }
+
+    public ObservedHashSet getFriendRequests() {
+        return friendRequests;
     }
 
     public void removeFriend(User user) {

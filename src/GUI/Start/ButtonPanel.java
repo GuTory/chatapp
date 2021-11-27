@@ -84,16 +84,6 @@ public class  ButtonPanel extends JPanel {
                 }
                 User newUser = new User(username, password, name, age);
 
-                /*
-                    FOR TESTING PURPOSES ONLY
-                */
-                for(User u: StartFrame.getUsers()){
-                    if(u.getUsername().equals("admin")){
-                        newUser.addFriend(u);
-                        System.out.println("friend added?");
-                    }
-                }
-
                 StartFrame.getUsers().add(newUser);
                 frame.getMessageLabel().setText("Welcome, " + name + "!");
                 frame.openChatFrame(newUser);
@@ -102,7 +92,6 @@ public class  ButtonPanel extends JPanel {
             } catch (Exception ee){
                 frame.getMessageLabel().setText("Please fill all textfields and enter valid information!");
             }
-
         }
     }
 }

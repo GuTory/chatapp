@@ -40,6 +40,7 @@ public class ChatPanel extends JPanel {
     public void refreshFriendList(){
         friendList.getModel().removeAllElements();
         friendList.getModel().addAll(user.getFriends().keySet());
+        frame.pack();
         westPane.revalidate();
         westPane.repaint();
     }

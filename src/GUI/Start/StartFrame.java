@@ -91,6 +91,15 @@ public class StartFrame extends JFrame implements Runnable {
         newthread.start();
     }
 
+    public static ChatFrame loggedInFrame(User u){
+        for(ChatFrame frame : chatFrames){
+            if (frame.getUser().equals(u)){
+                return frame;
+            }
+        }
+        return null;
+    }
+
     public static LinkedList<User> getUsers() {
         return users;
     }

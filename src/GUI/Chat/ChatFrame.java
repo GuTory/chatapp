@@ -28,6 +28,12 @@ public class ChatFrame extends JFrame implements Runnable {
         chatPanel = new ChatPanel(this, user);
         add(chatPanel);
         setVisible(true);
+
+        while (user.getFriendRequests().size()>0){
+            user.getFriendRequests().actionPerformed(user.getFriendRequests().get());
+            pack();
+        }
+        chatPanel.refreshFriendList();
     }
 
     public User getUser() {
