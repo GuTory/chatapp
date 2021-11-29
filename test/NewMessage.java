@@ -37,7 +37,7 @@ public class NewMessage {
         chatFrame = frame.getChatFrames().get(0);
         Assert.assertEquals(talm, chatFrame.getUser());
         JList<User> friendList = chatFrame.getChatPanel().getFriendList().getList();
-        friendList.setSelectedIndex(1);
+        friendList.setSelectedIndex(0);
         User selected = friendList.getSelectedValue();
         Assert.assertEquals(fusti, selected);
     }
