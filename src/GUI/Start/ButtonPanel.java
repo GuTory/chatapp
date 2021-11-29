@@ -44,6 +44,10 @@ public class  ButtonPanel extends JPanel {
         signUpButton.addActionListener( new SignUpListener());
     }
 
+    public JButton getLoginButton() {
+        return loginButton;
+    }
+
     /**
      * <h3>Belejentkezésért felelős {@link ActionListener}</h3>
      * Ha jó felhasználónév és jelszópárost adott meg a felhasználó, akkor megnyitja a csevegőablakát

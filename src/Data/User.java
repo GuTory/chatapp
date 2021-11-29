@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
- * <h2>Felhasznlókat implementáló osztály</h2>
+ * <h2>Felhasznlók adatait tároló osztály</h2>
  * Minden komponense és ő maga szerializálható, hiszen az ővelük kapcsolatos adatokat akarjuk elmenteni minden egyes alkalommal.
  */
 public class User implements Serializable {

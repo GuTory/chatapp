@@ -10,7 +10,7 @@ import org.junit.Test;
 import javax.swing.*;
 
 
-public class MessagesTest {
+public class Messages {
     private static StartFrame frame;
     private static User testuser;
     private static ChatFrame testframe;

@@ -10,14 +10,41 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+/**
+ * <h3>Üzenőpanel, a {@link ChatFrame} komponense</h3>
+ */
 public class MessagingPanel extends JPanel {
+    /**
+     * Panel, amihez tartozik
+     */
     private ChatPanel panel;
 
+    /**
+     * Textfield, amibe az üzenet szövegét be lehet illeszteni
+     */
     private JTextField messageField;
+
+    /**
+     * Gomb, amivel el lehet küldeni az üzenetet a kiválasztott ismerősnek
+     */
     private JButton sendButton;
-    File attachment;
+
+    /**
+     * Mindenkori csatolmány az új üzenethez, küldés után nullázódik
+     */
+    private File attachment;
+
+    /**
+     * ezzel a gombbal lehet elindítani a csatolás folyamatát
+     */
     private JButton attachmentButton;
 
+
+    /**
+     * <h3>Konstruktor</h3>
+     * Inicializálja a komponenseket és összerakja magát, ráállítja a gombokra a listenereket is
+     * @param chatPanel panel, amihez tartozik
+     */
     public MessagingPanel(ChatPanel chatPanel){
         panel = chatPanel;
         messageField = new JTextField(40);
@@ -31,6 +58,25 @@ public class MessagingPanel extends JPanel {
         panel.add(this, BorderLayout.SOUTH);
     }
 
+    /**
+     * küldésgomb gettere, (JUnit) teszteléshez kell
+     * @return küldésgomb
+     */
+    public JButton getSendButton() {
+        return sendButton;
+    }
+
+    /**
+     * üzenő szövegdoboz gettere
+     * @return üzenődoboz
+     */
+    public JTextField getMessageField() {
+        return messageField;
+    }
+
+    /**
+     * Üzenetküldés Listener implementáció, ha nem üres a szövegdoboz és ki van választva egy barátunk, akkor elküldi neki az üzenetet
+     */
     private class SendMessageListener implements ActionListener {
 
         @Override
@@ -61,6 +107,9 @@ public class MessagingPanel extends JPanel {
         }
     }
 
+    /**
+     * Fájl csatolás Listener implementációja
+     */
     private class AddAttachmentListener implements ActionListener{
 
         @Override

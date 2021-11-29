@@ -16,28 +16,41 @@ public class ChatPanel extends JPanel {
     ChatFrame frame;
 
     /**
-     * A felhazs
+     * Nyugati panel, itt lesz a barátok listája
      */
-
-
     private JScrollPane westPane;
+
+    /**
+     * Barátokat tároló és megjelenítő komponens, bele lesz helyezve a westpane-be, hogy görgethető legyen
+     */
     private FriendList friendList;
+
+    /**
+     * Központi komponens, itt lesznek az üzenetek, ebbe lesz belehelyezve az üzenetpanel, csak így görgethető is
+     */
     private JScrollPane centerPane;
+
+    /**
+     * Üzenetpanel, ami tárolja és megjeleníti az üzeneteket.
+     */
     private MessagesPanel messagesPanel;
+
+    /**
+     * Üzenőpanel, ami a felület alján lesz, ide lehet majd beírni az üzenetünket és elküldeni azt, vagy fájlt csatolni
+     */
     private MessagingPanel messagingPanel;
 
+    /**
+     * <h3>Konstruktor</h3>
+     * Inicializálja az elemeit, összerakja magát
+     * @param f frame, amihez tartozik
+     */
     public ChatPanel(ChatFrame f){
         frame = f;
         setLayout(new BorderLayout());
-
         messagingPanel = new MessagingPanel(this);
-
         friendList = new FriendList(this);
-
         westPane = new JScrollPane(friendList);
-        /*
-            Texting purposes only
-         */
         User select = friendList.getList().getSelectedValue();
         messagesPanel = new MessagesPanel(frame , select);
 
@@ -46,6 +59,9 @@ public class ChatPanel extends JPanel {
         add(centerPane, BorderLayout.CENTER);
     }
 
+    /**
+     * Baráti lista frissítése
+     */
     public void refreshFriendList(){
         friendList.getModel().removeAllElements();
         friendList.getModel().addAll(frame.getUser().getFriends().keySet());
@@ -54,15 +70,35 @@ public class ChatPanel extends JPanel {
         westPane.repaint();
     }
 
+    /**
+     * frame gettere, teszteléshez kell (JUnit)
+     * @return frame, amihez tartozik
+     */
     public ChatFrame getFrame() {
         return frame;
     }
 
+    /**
+     * üzenetpanel gettere
+     * @return üzenetpanel
+     */
     public MessagesPanel getMessagesPanel() {
         return messagesPanel;
     }
 
+    /**
+     * Baráti lista gettere
+     * @return baráti lista getter
+     */
     public FriendList getFriendList() {
         return friendList;
+    }
+
+    /**
+     * Üzenőpanel gettere, teszteléshez kell (JUnit)
+     * @return
+     */
+    public  MessagingPanel getMessagingPanel(){
+        return messagingPanel;
     }
 }

@@ -5,9 +5,11 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 
-public class LoginAndSingUpTest {
+public class Friends {
     private static StartFrame frame;
     private static User testuser;
 
@@ -18,14 +20,16 @@ public class LoginAndSingUpTest {
     }
 
     @Test
-    public void login(){
-        Assert.assertEquals(  frame.getUsers().size(),3);
-
-        Assert.assertEquals(testuser.getUsername(),"admin");
-        Assert.assertEquals(testuser.getPassword(),"admin");
-        Assert.assertEquals(testuser.getName(), "Kristóf");
+    public void testMe(){
+        Assert.assertEquals(frame.getUsers().size(),3);
+        Assert.assertEquals("admin",testuser.getUsername());
+        Assert.assertEquals("admin",testuser.getPassword());
+        Assert.assertEquals("Kristóf",testuser.getName());
+        Assert.assertEquals(20, testuser.getAge());
         Assert.assertEquals(testuser.getFriends().size(),1);
-
+        frame.openChatFrame(testuser);
+        List<ChatFrame> frames = frame.getChatFrames();
+        Assert.assertEquals( testuser,frames.get(0).getUser());
     }
 
     @Test
@@ -40,5 +44,10 @@ public class LoginAndSingUpTest {
         Iterator<User> iterator = testuser.getFriends().keySet().iterator();
 
         Assert.assertSame(user, iterator.next());
+
+        User friendUser = frame.getUsers().get(2);
+        HashSet<User> friendSet = new HashSet<>();
+        friendSet.add(friendUser);
+        Assert.assertEquals(testuser.getFriends().keySet(), friendSet);
     }
 }

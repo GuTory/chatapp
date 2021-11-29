@@ -163,6 +163,14 @@ public class StartFrame extends JFrame implements Runnable {
     }
 
     /**
+     * Gombpanel gettere, szimplán teszteléshez kell
+     * @return
+     */
+    public ButtonPanel getButtonPanel() {
+        return buttonPanel;
+    }
+
+    /**
      * <h3>Többszálúság, {@link Runnable} interfész implementáció</h3>
      */
     @Override
